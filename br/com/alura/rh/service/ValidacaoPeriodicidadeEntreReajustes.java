@@ -11,7 +11,11 @@ import java.time.temporal.ChronoUnit;
 
 public class ValidacaoPeriodicidadeEntreReajustes implements ValidacaoReajuste {
     public void validar(Funcionario funcionario, BigDecimal aumento) {
+        //Esse é o cenário do funcionário nunca ter recebido reajuste::
         var dataUltimoReajuste = funcionario.getDataUltimoReajuste();
+        if (dataUltimoReajuste == null) {
+            return;
+        }
         var dataAtual = LocalDate.now();
         var diferencaMesReajuste = Duration.between(dataAtual, dataUltimoReajuste).get(ChronoUnit.MONTHS);
         if (diferencaMesReajuste < 6) {
